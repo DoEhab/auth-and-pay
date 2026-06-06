@@ -88,25 +88,28 @@ class PaywallService {
     }
   }
 
+  // Process a purchase using an abstract entitlement ID
   Future<bool> purchaseProduct(Package package) async {
     try {
-      final CustomerInfo customerInfo = await Purchases.purchasePackage(
-        package,
-      );
+      // 🔥 FIX: In v10.x, this returns a PurchaseResult, not CustomerInfo
+      final purchaseResult = await Purchases.purchasePackage(package);
 
-      // FIX: Access 'entitlements' directly on 'customerInfo'
-      final bool hasPremium =
-          customerInfo.entitlements.all['premium']?.isActive ?? false;
+      // 🔥 FIX: Access .customerInfo on the result object
+      final bool hasPremium = purchaseResult.customerInfo.entitlements.all['premium']?.isActive ?? false;
 
       isPremium.value = hasPremium;
       return hasPremium;
+
     } on PlatformException catch (e) {
       final errorCode = PurchasesErrorHelper.getErrorCode(e);
-      if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
-        debugPrint("Purchase failed: $e");
+      if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+        debugPrint("User cancelled the purchase.");
+      } else {
+        debugPrint("Purchase failed with error: $e");
       }
       return false;
     } catch (e) {
+      debugPrint("Unexpected purchase error: $e");
       return false;
     }
   }
