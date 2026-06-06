@@ -91,14 +91,16 @@ class PaywallService {
   // Process a purchase using an abstract entitlement ID
   Future<bool> purchaseProduct(Package package) async {
     try {
-      // 🔥 FIX: In v10.x, this returns a PurchaseResult, not CustomerInfo
-      final purchaseResult = await Purchases.purchasePackage(package);
+      // 🔥 THIS MUST BE 'purchaseResult', NOT 'CustomerInfo customerInfo'
+      final purchaseParams = PurchaseParams.package(package);
+      final purchaseResult = await Purchases.purchase(purchaseParams);
 
-      // 🔥 FIX: Access .customerInfo on the result object
+      // 🔥 THIS MUST ACCESS '.customerInfo'
       final bool hasPremium = purchaseResult.customerInfo.entitlements.all['premium']?.isActive ?? false;
 
       isPremium.value = hasPremium;
       return hasPremium;
+      // ... keep the rest of the catch blocks exactly as they are ...
 
     } on PlatformException catch (e) {
       final errorCode = PurchasesErrorHelper.getErrorCode(e);
