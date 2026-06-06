@@ -1,0 +1,17 @@
+name: paywall_package_example
+description: A test app for the paywall package.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Link to the parent package
+  micro_core_module:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
