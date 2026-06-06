@@ -15,7 +15,6 @@ dependencies:
   purchases_flutter: any
   firebase_core: any
   url_launcher: ^6.2.5
-  flutter_dotenv: ^5.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

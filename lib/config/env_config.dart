@@ -1,6 +1,12 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class EnvConfig {
-  static String get revenueCatAppleKey => dotenv.env['REVENUECAT_APPLE_KEY'] ?? '';
-  static String get revenueCatGoogleKey => dotenv.env['REVENUECAT_GOOGLE_KEY'] ?? '';
+  // These will be injected at compile time
+  static const String revenueCatAppleKey = String.fromEnvironment(
+    'REVENUECAT_APPLE_KEY',
+    defaultValue: 'fallback_key_for_testing',
+  );
+
+  static const String revenueCatGoogleKey = String.fromEnvironment(
+    'REVENUECAT_GOOGLE_KEY',
+    defaultValue: 'fallback_key_for_testing',
+  );
 }

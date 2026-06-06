@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:your_package_name/monetization/paywall_service.dart'; // Import from your package
+import 'package:micro_core_module/core/monetization/paywall_service.dart'; // Import from your package
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
